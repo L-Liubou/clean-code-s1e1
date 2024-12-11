@@ -1,77 +1,73 @@
-//Document is the DOM can be accessed in the console with document.window.
+// Document is the DOM can be accessed in the console with document.window.
 // Tree is from the top, html, body, p etc.
 
-//Problem: User interaction does not provide the correct results.
-//Solution: Add interactivity so the user can manage daily tasks.
-//Break things down into smaller steps and take each step at a time.
-
+// Problem: User interaction does not provide the correct results.
+// Solution: Add interactivity so the user can manage daily tasks.
+// Break things down into smaller steps and take each step at a time.
 
 // Event handling, user interaction is what starts the code execution.
 
-var taskInput=document.getElementById("new-task");//Add a new task.
-var addButton=document.getElementsByTagName("button")[0];//first button
-var incompleteTaskHolder=document.getElementById("incompleteTasks");//ul of #incompleteTasks
-var completedTasksHolder=document.getElementById("completed-tasks");//completed-tasks
+// Issues with usability don't get seen until they are in front of a human tester.
 
+// Prevent creation of empty tasks.
 
-//New task list item
-var createNewTaskElement=function(taskString){
+// Change edit to save when you are in edit mode.
 
-    var listItem=document.createElement("li");
+const taskInput = document.getElementById('new-task');
+const addButton = document.getElementById('add-task-button');
+const incompleteTaskHolder = document.getElementById('incomplete-tasks');
+const completedTasksHolder = document.getElementById('completed-tasks');
 
-    //input (checkbox)
-    var checkBox=document.createElement("input");//checkbx
-    //label
-    var label=document.createElement("label");//label
-    //input (text)
-    var editInput=document.createElement("input");//text
-    //button.edit
-    var editButton=document.createElement("button");//edit button
+// Create new task list item
+function createNewTaskElement(taskString) {
+  const listItem = document.createElement('li');
+  listItem.classList.add('task');
 
-    //button.delete
-    var deleteButton=document.createElement("button");//delete button
-    var deleteButtonImg=document.createElement("img");//delete button image
+  const checkBox = document.createElement('input');
+  checkBox.type = 'checkbox';
+  checkBox.classList.add('task__checkbox');
 
-    label.innerText=taskString;
-    label.className='task';
+  const label = document.createElement('label');
+  label.innerText = taskString;
+  label.classList.add('task__label');
 
-    //Each elements, needs appending
-    checkBox.type="checkbox";
-    editInput.type="text";
-    editInput.className="task";
+  const editInput = document.createElement('input');
+  editInput.type = 'text';
+  editInput.classList.add('task__input');
 
-    editButton.innerText="Edit"; //innerText encodes special characters, HTML does not.
-    editButton.className="edit";
+  const editButton = document.createElement('button');
+  editButton.innerText = 'Edit';
+  editButton.classList.add('task__btn');
+  editButton.classList.add('task__btn--edit');
 
-    deleteButton.className="delete";
-    deleteButtonImg.src='./remove.svg';
-    deleteButton.appendChild(deleteButtonImg);
+  const deleteButton = document.createElement('button');
+  deleteButton.classList.add('task__btn');
+  deleteButton.classList.add('task__btn--delete');
 
+  const deleteButtonImg = document.createElement('img');
+  deleteButtonImg.src = './remove.svg';
+  deleteButtonImg.classList.add('task__delete-icon');
+  deleteButton.appendChild(deleteButtonImg);
 
-    //and appending.
-    listItem.appendChild(checkBox);
-    listItem.appendChild(label);
-    listItem.appendChild(editInput);
-    listItem.appendChild(editButton);
-    listItem.appendChild(deleteButton);
-    return listItem;
+  listItem.append(checkBox, label, editInput, editButton, deleteButton);
+  return listItem;
 }
 
+// Add a new item to the "TODOo" tasks list
+function addTask() {
+  console.log('Add Task...');
+  if (!taskInput.value) return;
+  const listItem = createNewTaskElement(taskInput.value);
 
+  incompleteTaskHolder.appendChild(listItem);
+  bindTaskEvents(listItem, taskCompleted);
 
-var addTask=function(){
-    console.log("Add Task...");
-    //Create a new list item with the text from the #new-task:
-    if (!taskInput.value) return;
-    var listItem=createNewTaskElement(taskInput.value);
-
-    //Append listItem to incompleteTaskHolder
-    incompleteTaskHolder.appendChild(listItem);
-    bindTaskEvents(listItem, taskCompleted);
-
-    taskInput.value="";
-
+  taskInput.value = '';
 }
+
+addButton.addEventListener('click', () => {
+  addTask();
+});
 
 //Edit an existing task.
 
@@ -138,20 +134,6 @@ var taskIncomplete=function(){
 }
 
 
-
-var ajaxRequest=function(){
-    console.log("AJAX Request");
-}
-
-//The glue to hold it all together.
-
-
-//Set the click handler to the addTask function.
-addButton.onclick=addTask;
-addButton.addEventListener("click",addTask);
-addButton.addEventListener("click",ajaxRequest);
-
-
 var bindTaskEvents=function(taskListItem,checkBoxEventHandler){
     console.log("bind list item events");
 //select ListItems children
@@ -184,12 +166,3 @@ for (var i=0; i<completedTasksHolder.children.length;i++){
     //bind events to list items chldren(tasksIncompleted)
     bindTaskEvents(completedTasksHolder.children[i],taskIncomplete);
 }
-
-
-
-
-// Issues with usability don't get seen until they are in front of a human tester.
-
-//prevent creation of empty tasks.
-
-//Change edit to save when you are in edit mode.
