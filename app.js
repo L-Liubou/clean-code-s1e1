@@ -56,14 +56,30 @@ function createNewTaskElement(taskString) {
 // Add a new item to the "TODOo" tasks list
 function addTask() {
   console.log('Add Task...');
-  if (!taskInput.value) return;
-  const listItem = createNewTaskElement(taskInput.value);
 
+  if (!taskInput.value.trim()) return;
+
+  const listItem = createNewTaskElement(taskInput.value);
   incompleteTaskHolder.appendChild(listItem);
   bindTaskEvents(listItem, completeTask);
 
   taskInput.value = '';
+  toggleButtonState();
 }
+
+// Change button state based on the input field value
+function toggleButtonState() {
+  if (!taskInput.value.trim()) {
+    addButton.disabled = true;
+    addButton.classList.add('task__btn--disabled');
+  } else {
+    addButton.disabled = false;
+    addButton.classList.remove('task__btn--disabled');
+  }
+}
+
+taskInput.addEventListener('input', toggleButtonState);
+toggleButtonState();
 
 addButton.addEventListener('click', () => {
   addTask();

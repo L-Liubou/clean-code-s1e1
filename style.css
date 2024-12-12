@@ -124,6 +124,32 @@
   color: #3a3a3a;
 }
 
+.task__btn--disabled {
+  position: relative;
+}
+
+.task__btn--disabled:hover {
+  color: #888888;
+}
+
+.tooltip {
+  display: none;
+  position: absolute;
+  bottom: 140%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333333;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.task__btn--disabled:hover .tooltip {
+  display: block;
+}
+
 .task__delete-icon {
   height: 2em;
   transform: rotateZ(45deg);
