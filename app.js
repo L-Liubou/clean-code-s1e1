@@ -86,6 +86,12 @@ addButton.addEventListener('click', () => {
   addTask();
 });
 
+taskInput.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' && taskInput.value.trim()) {
+    addTask();
+  }
+});
+
 // Edit an item in the tasks list
 function editTask() {
   console.log('Edit Task...');
